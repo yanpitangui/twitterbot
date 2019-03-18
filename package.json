@@ -1,0 +1,27 @@
+{
+  "name": "botquetweeta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yan Pitangui",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.26",
+    "@types/dotenv": "^6.1.0",
+    "@types/node": "^11.11.3",
+    "@types/twit": "^2.2.21",
+    "tslint": "^5.14.0"
+  },
+  "dependencies": {
+    "@types/snoowrap": "^1.15.3",
+    "@types/tmp": "^0.0.34",
+    "dotenv": "^7.0.0",
+    "snoowrap": "^1.15.2",
+    "tmp": "^0.0.33",
+    "twit": "^2.2.11"
+  }
+}
