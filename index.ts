@@ -5,10 +5,11 @@ dotenv.config(); // to load environment variables;
 
 const redditConfig: IRedditOptions = {
     clientSecret: process.env.CLIENT_SECRET as string,
-    clientId: process.env.CLIENT_ID  as string,
+    clientId: process.env.CLIENT_ID as string,
     password: process.env.REDDIT_PASSWORD as string,
     username: process.env.REDDIT_USERNAME as string,
     userAgent: "botdoyan",
+    limit: 5,
 };
 const twitterConfig: ITwitterOptions = {
     consumer_key: process.env.CONSUMER_KEY as string,

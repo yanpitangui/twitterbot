@@ -1,19 +1,24 @@
-import * as Reddit from "snoowrap";
-import * as Twit from "twit";
-import * as https from "https";
 import * as fs from "fs";
-import * as tmp from "tmp";
+import * as path from "path";
+import * as request from "request-promise";
+import * as Reddit from "snoowrap";
+import * as tmp from "tmp-promise";
+import * as Twit from "twit";
 
 export class TwitterBot {
     public twitterClient: Twit;
     public redditClient: Reddit;
     public subreddits: [string];
-    private metadata: Map<string, object>;
-    constructor(redditConfig: IRedditOptions, twitterConfig: ITwitterOptions, subreddits: [string]) {
+    private metadata: Map<string, [IPostMetaData]>;
+    constructor(
+        redditConfig: IRedditOptions,
+        twitterConfig: ITwitterOptions,
+        subreddits: [string],
+    ) {
         this.twitterClient = new Twit.default(twitterConfig);
         this.redditClient = new Reddit.default(redditConfig as IRedditOptions);
         this.subreddits = subreddits;
-        this.metadata = new Map<string, object>();
+        this.metadata = new Map<string, [IPostMetaData]>();
         this.fetchRepos(redditConfig.limit);
     }
 
@@ -23,23 +28,39 @@ export class TwitterBot {
 
     private fetchRepos(limit?: number): void {
         this.subreddits.forEach((subreddit) => {
-            this.redditClient.getSubreddit(subreddit)
-            .getHot({limit: limit ? limit : 3})
-                .then((info: Reddit.Listing<Reddit.Submission>)  => {
+            this.redditClient
+                .getSubreddit(subreddit)
+                .getHot({ limit: limit ? limit : 3 })
+                .then((info: Reddit.Listing<Reddit.Submission>) => {
                     info.forEach((post: Reddit.Submission) => {
-                        tmp.file((err, path, fd, cleanupCallback) => {
-                        const file = fs.createWriteStream(path);
-                        https.get(post.url, (res) => {
-                            res.pipe(file);
-                        });
+                        if (
+                            !post.url.match(
+                                /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/g,
+                            )
+                        ) {
+                            console.log(
+                                `Submission ${post.permalink} doesn't have a valid image url.`,
+                            );
+                        } else {
+                            tmp.file({ dir: "./", keep: true, postfix: `${path.extname(post.url)}` }).then((o) => {
+                                const file = fs.createWriteStream(o.path);
+                                request.default({ url: post.url }).pipe(file);
+                                const postInfo: IPostMetaData = { file_name: o.path, title: post.title };
+                                if (this.metadata.has(subreddit)) {
+                                    const posts = this.metadata.get(subreddit) as [IPostMetaData];
+                                    this.metadata.set(subreddit, [...posts, postInfo] as [IPostMetaData]);
+                                } else {
+                                    this.metadata.set(subreddit, [postInfo]);
+                                }
+                            });
+                        }
                     });
-                    });
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     throw err;
                 });
         });
     }
-
 }
 
 export interface ITwitterOptions extends Twit.Options {
@@ -51,4 +72,9 @@ export interface ITwitterOptions extends Twit.Options {
 
 export interface IRedditOptions extends Reddit.SnoowrapOptions {
     limit?: number;
+}
+
+export interface IPostMetaData {
+    file_name: string;
+    title: string;
 }

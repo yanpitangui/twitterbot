@@ -2,13 +2,16 @@ dependencies:
   '@types/snoowrap': 1.15.3
   '@types/tmp': 0.0.34
   dotenv: 7.0.0
+  request: 2.88.0
+  request-promise: 4.2.4
   snoowrap: 1.15.2
-  tmp: 0.0.33
+  tmp-promise: 1.0.5
   twit: 2.2.11
 devDependencies:
   '@types/bluebird': 3.5.26
   '@types/dotenv': 6.1.0
   '@types/node': 11.11.3
+  '@types/request-promise': 4.1.42
   '@types/twit': 2.2.21
   tslint: 5.14.0
 lockfileVersion: 5
@@ -18,7 +21,6 @@ packages:
     resolution:
       integrity: sha512-aj2mrBLn5ky0GmAg6IPXrQjnN0iB/ulozuJ+oZdrHRAzRbXjGmu4UXsNCjFvPbSaaPZmniocdOzsM392qLOlmQ==
   /@types/caseless/0.12.2:
-    dev: false
     resolution:
       integrity: sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
   /@types/dotenv/6.1.0:
@@ -29,8 +31,7 @@ packages:
       integrity: sha512-gmbNb7V1LbJQA4MmH0hVFgqY1cyKsa6RvKC1Xrq0WBnZ0JuuvXKciXx/s8dN0LVXCJd8xO6wIaSFSyUIoGph9g==
   /@types/form-data/2.2.1:
     dependencies:
-      '@types/node': 11.11.3
-    dev: false
+      '@types/node': 11.11.4
     resolution:
       integrity: sha512-JAMFhOaHIciYVh8fb5/83nmuO/AHwmto+Hq7a9y8FzLDcC1KCU344XDOMEmahnrTFlHjgh4L0WJFczNIX2GxnQ==
   /@types/geojson/7946.0.6:
@@ -40,13 +41,22 @@ packages:
   /@types/node/11.11.3:
     resolution:
       integrity: sha512-wp6IOGu1lxsfnrD+5mX6qwSwWuqsdkKKxTN4aQc4wByHAKZJf9/D4KXPQ1POUjEbnCP5LMggB0OEFNY9OTsMqg==
+  /@types/node/11.11.4:
+    resolution:
+      integrity: sha512-02tIL+QIi/RW4E5xILdoAMjeJ9kYq5t5S2vciUdFPXv/ikFTb0zK8q9vXkg4+WAJuYXGiVT1H28AkD2C+IkXVw==
+  /@types/request-promise/4.1.42:
+    dependencies:
+      '@types/bluebird': 3.5.26
+      '@types/request': 2.48.1
+    dev: true
+    resolution:
+      integrity: sha512-b8li55sEZ00BXZstZ3d8WOi48dnapTqB1VufEG9Qox0nVI2JVnTVT1Mw4JbBa1j+1sGVX/qJ0R4WDv4v2GjT0w==
   /@types/request/2.48.1:
     dependencies:
       '@types/caseless': 0.12.2
       '@types/form-data': 2.2.1
-      '@types/node': 11.11.3
+      '@types/node': 11.11.4
       '@types/tough-cookie': 2.3.5
-    dev: false
     resolution:
       integrity: sha512-ZgEZ1TiD+KGA9LiAAPPJL68Id2UWfeSO62ijSXZjFJArVV+2pKcsVHmrcu+1oiE3q6eDGiFiSolRc4JHoerBBg==
   /@types/snoowrap/1.15.3:
@@ -61,7 +71,6 @@ packages:
     resolution:
       integrity: sha512-Tx7JYeYR+pkAnDQjN1Cj43KuOuUvyybZHl+fAezReXuH/SQoxLhsuPvHZH/SA4XtrBEhaTcbb5gVc1WQcjQgdg==
   /@types/tough-cookie/2.3.5:
-    dev: false
     resolution:
       integrity: sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
   /@types/twit/2.2.21:
@@ -538,6 +547,16 @@ packages:
       node: '>=0.6'
     resolution:
       integrity: sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+  /request-promise-core/1.1.2:
+    dependencies:
+      lodash: 4.17.11
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    peerDependencies:
+      request: ^2.34
+    resolution:
+      integrity: sha512-UHYyq1MO8GsefGEt7EprS8UrXsm1TxEvFUX1IMTuSLU2Rh7fTIdFtl8xD7JiEYiWU2dl+NYAjCTksTehQUxPag==
   /request-promise/3.0.0:
     dependencies:
       bluebird: 3.5.3
@@ -548,6 +567,19 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-vh7bJvQcSc0dVlbGdT1oQqEkn0Y=
+  /request-promise/4.2.4:
+    dependencies:
+      bluebird: 3.5.3
+      request-promise-core: 1.1.2
+      stealthy-require: 1.1.1
+      tough-cookie: 2.5.0
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    peerDependencies:
+      request: ^2.34
+    resolution:
+      integrity: sha512-8wgMrvE546PzbR5WbYxUQogUnUDfM0S7QIFZMID+J73vdFARkFy+HElj4T+MWYhpXwlLp0EQ8Zoj8xUA0he4Vg==
   /request/2.88.0:
     dependencies:
       aws-sign2: 0.7.0
@@ -627,6 +659,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg==
+  /stealthy-require/1.1.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
   /strip-ansi/3.0.1:
     dependencies:
       ansi-regex: 2.1.1
@@ -649,6 +687,13 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
+  /tmp-promise/1.0.5:
+    dependencies:
+      bluebird: 3.5.3
+      tmp: 0.0.33
+    dev: false
+    resolution:
+      integrity: sha512-hOabTz9Tp49wCozFwuJe5ISrOqkECm6kzw66XTP23DuzNU7QS/KiZq5LC9Y7QSy8f1rPSLy4bKaViP0OwGI1cA==
   /tmp/0.0.33:
     dependencies:
       os-tmpdir: 1.0.2
@@ -666,6 +711,15 @@ packages:
       node: '>=0.8'
     resolution:
       integrity: sha512-Q5srk/4vDM54WJsJio3XNn6K2sCG+CQ8G5Wz6bZhRZoAe/+TxjWB/GlFAnYEbkYVlON9FMk/fE3h2RLpPXo4lQ==
+  /tough-cookie/2.5.0:
+    dependencies:
+      psl: 1.1.31
+      punycode: 2.1.1
+    dev: false
+    engines:
+      node: '>=0.8'
+    resolution:
+      integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==
   /tslib/1.9.3:
     dev: true
     resolution:
@@ -761,11 +815,14 @@ specifiers:
   '@types/bluebird': ^3.5.26
   '@types/dotenv': ^6.1.0
   '@types/node': ^11.11.3
+  '@types/request-promise': ^4.1.42
   '@types/snoowrap': ^1.15.3
   '@types/tmp': ^0.0.34
   '@types/twit': ^2.2.21
   dotenv: ^7.0.0
+  request: ^2.88.0
+  request-promise: ^4.2.4
   snoowrap: ^1.15.2
-  tmp: ^0.0.33
+  tmp-promise: ^1.0.5
   tslint: ^5.14.0
   twit: ^2.2.11

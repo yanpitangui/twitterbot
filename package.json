@@ -13,6 +13,7 @@
     "@types/bluebird": "^3.5.26",
     "@types/dotenv": "^6.1.0",
     "@types/node": "^11.11.3",
+    "@types/request-promise": "^4.1.42",
     "@types/twit": "^2.2.21",
     "tslint": "^5.14.0"
   },
@@ -20,8 +21,10 @@
     "@types/snoowrap": "^1.15.3",
     "@types/tmp": "^0.0.34",
     "dotenv": "^7.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "snoowrap": "^1.15.2",
-    "tmp": "^0.0.33",
+    "tmp-promise": "^1.0.5",
     "twit": "^2.2.11"
   }
 }
