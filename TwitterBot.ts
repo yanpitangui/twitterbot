@@ -10,7 +10,7 @@ export class TwitterBot {
     private redditClient: Reddit;
     private subreddits: [string];
     private limit: number;
-    private metadata: Map<string, [IPostMetaData]>;
+    private metadata: ISubredditMetaData[];
     constructor(
         redditConfig: IRedditOptions,
         twitterConfig: ITwitterOptions,
@@ -19,26 +19,30 @@ export class TwitterBot {
         this.twitterClient = new Twit.default(twitterConfig);
         this.redditClient = new Reddit.default(redditConfig as IRedditOptions);
         this.subreddits = subreddits;
-        this.metadata = new Map<string, [IPostMetaData]>();
+        this.metadata = new Array<ISubredditMetaData>();
         this.limit = redditConfig.limit ? redditConfig.limit : -1;
     }
 
     public async run(): Promise<any> {
-        await this.fetchRepos();
+        this.fetchRepos().then(() => {
+            console.log(this.metadata);
+        });
     }
 
     private async fetchRepos(): Promise<any> {
-        return Promise.all(this.subreddits.map(this.fetchSubreddit));
+        return Promise.all(this.subreddits.map(this.fetchSubreddit)).catch((err) => {
+            throw err;
+        });
     }
 
-    private fetchSubreddit = (subreddit: string): Promise<any> => {
-        return this.redditClient
+    private fetchSubreddit = async (subreddit: string): Promise<any> => {
+        return await this.redditClient
             .getSubreddit(subreddit)
             .getHot({ limit: this.limit ? this.limit : 3 })
-            .then((info: Reddit.Listing<Reddit.Submission>) => {
-                for (const post of info) {
-                    this.fetchPost(post);
-                }
+            .then(async (info: Reddit.Listing<Reddit.Submission>) => {
+                this.metadata.push({ subreddit, posts: [] });
+                return Promise.all(info.map(this.fetchPost));
+
             })
             .catch((err) => {
                 throw err;
@@ -46,27 +50,35 @@ export class TwitterBot {
     }
 
     private fetchPost = (post: Reddit.Submission) => {
-        if (
-            !post.url.match(
-                /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/g,
-            )
-        ) {
-            console.log(
-                `Submission ${post.permalink} doesn't have a valid image url.`,
-            );
-        } else {
-            tmp.file({ dir: "./", postfix: `${path.extname(post.url)}` }).then((o) => {
-                const file = fs.createWriteStream(o.path);
-                request.default({ url: post.url }).pipe(file);
-                const postInfo: IPostMetaData = { file_name: o.path, title: post.title };
-                if (this.metadata.has(post.subreddit.name)) {
-                    const posts = this.metadata.get(post.subreddit.name) as [IPostMetaData];
-                    this.metadata.set(post.subreddit.name, [...posts, postInfo] as [IPostMetaData]);
+        return new Promise((resolve, reject) => {
+            try {
+                if (
+                    !post.url.match(
+                        /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/g,
+                    )
+                ) {
+                    console.log(
+                        `Submission ${post.permalink} doesn't have a valid image url.`,
+                    );
+                    resolve();
                 } else {
-                    this.metadata.set(post.subreddit.name, [postInfo]);
+                    const o = tmp.fileSync({ dir: "./", postfix: `${path.extname(post.url)}` });
+                    const file = fs.createWriteStream(o.name);
+                    request.default({ url: post.url }).pipe(file);
+                    const postInfo: IPostMetaData = { file_name: o.name, title: post.title };
+
+                    const subidx = this.metadata.findIndex((value) => {
+                        return value.subreddit === post.subreddit_name_prefixed.split("/").pop();
+                    });
+                    this.metadata[subidx].posts = [...this.metadata[subidx].posts, postInfo];
+                    file.on("finish", resolve);
                 }
-            });
-        }
+            } catch (error) {
+                reject(error);
+            }
+
+        });
+
     }
 }
 
@@ -84,4 +96,9 @@ export interface IRedditOptions extends Reddit.SnoowrapOptions {
 export interface IPostMetaData {
     file_name: string;
     title: string;
+}
+
+export interface ISubredditMetaData {
+    subreddit: string;
+    posts: IPostMetaData[];
 }
