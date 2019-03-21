@@ -18,5 +18,7 @@ const twitterConfig: ITwitterOptions = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET as string,
 };
 
-const reddit = new TwitterBot(redditConfig, twitterConfig, ["dankchristianmemes"]);
+const subreddits = (process.env.SUBREDDITS as string).split(";");
+
+const reddit = new TwitterBot(redditConfig, twitterConfig, subreddits);
 reddit.run();
