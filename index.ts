@@ -9,7 +9,7 @@ const redditConfig: IRedditOptions = {
     password: process.env.REDDIT_PASSWORD as string,
     username: process.env.REDDIT_USERNAME as string,
     userAgent: "botdoyan",
-    limit: 5,
+    limit: 3,
 };
 const twitterConfig: ITwitterOptions = {
     consumer_key: process.env.CONSUMER_KEY as string,
@@ -18,5 +18,5 @@ const twitterConfig: ITwitterOptions = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET as string,
 };
 
-const reddit = new TwitterBot(redditConfig, twitterConfig, ["cursedimages"]);
+const reddit = new TwitterBot(redditConfig, twitterConfig, ["dankchristianmemes"]);
 reddit.run();
