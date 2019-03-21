@@ -7,6 +7,7 @@ dependencies:
   snoowrap: 1.15.2
   tmp-promise: 1.0.5
   twit: 2.2.11
+  typescript: 3.3.4000
 devDependencies:
   '@types/bluebird': 3.5.26
   '@types/dotenv': 6.1.0
@@ -775,6 +776,13 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-BkdwvZGRVoUTcEBp0zuocuqfih4LB+kEFUWkWJOVBg6pAE9Ebv9vmsYTTrfXleZGf45Bj5H3A1/O9YhF2uSYNg==
+  /typescript/3.3.4000:
+    dev: false
+    engines:
+      node: '>=4.2.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-jjOcCZvpkl2+z7JFn0yBOoLQyLoIkNZAs/fYJkUG6VKy6zLPHJGfQJYFHzibB6GJaF/8QrcECtlQ5cpvRHSMEA==
   /ultron/1.0.2:
     dev: false
     resolution:
@@ -826,3 +834,4 @@ specifiers:
   tmp-promise: ^1.0.5
   tslint: ^5.14.0
   twit: ^2.2.11
+  typescript: ^3.3.4000

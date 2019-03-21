@@ -5,7 +5,11 @@
     "main": "dist/index.js",
     "scripts": {
         "start": "tsc && node dist/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build-ts": "tsc",
+        "postinstall": "npm run build-ts",
+        "watch-node": "nodemon dist/index.js",
+        "watch-ts": "tsc -w"
     },
     "author": "Yan Pitangui",
     "license": "MIT",
@@ -25,6 +29,7 @@
         "request-promise": "^4.2.4",
         "snoowrap": "^1.15.2",
         "tmp-promise": "^1.0.5",
-        "twit": "^2.2.11"
+        "twit": "^2.2.11",
+        "typescript": "^3.3.4000"
     }
 }
