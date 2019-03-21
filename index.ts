@@ -19,3 +19,4 @@ const twitterConfig: ITwitterOptions = {
 };
 
 const reddit = new TwitterBot(redditConfig, twitterConfig, ["cursedimages"]);
+reddit.run();
