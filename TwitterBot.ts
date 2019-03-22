@@ -49,7 +49,7 @@ export class TwitterBot {
     private fetchSubreddit = async (subreddit: string): Promise<any> => {
         return await this.redditClient
             .getSubreddit(subreddit)
-            .getHot({ limit: this.limit ? this.limit : 3 })
+            .getTop({ limit: this.limit ? this.limit : 3, time: "day" })
             .then(async (info: Reddit.Listing<Reddit.Submission>) => {
                 this.metadata.push({ subreddit, posts: [] });
                 return Promise.all(info.map(this.fetchPost));
